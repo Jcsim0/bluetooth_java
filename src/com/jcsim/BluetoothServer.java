@@ -68,7 +68,7 @@ public class BluetoothServer implements Runnable{
             //作为服务端，被请求
             String url = "btspp://localhost:" +  serverUUID+ ";name="+serverName;
             notifier = (StreamConnectionNotifier) Connector.open(url);
-
+            System.out.println("serverName="+serverName );
             service.submit(this);
         } catch (IOException e) {
             System.out.println(e.getMessage());;

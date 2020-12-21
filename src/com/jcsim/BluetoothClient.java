@@ -7,11 +7,15 @@ package com.jcsim;
  * @Date: 2020/11/25 15:14
  * @Description:蓝牙客户端类
  */
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import javax.bluetooth.BluetoothConnectionException;
 import javax.bluetooth.RemoteDevice;
 import javax.microedition.io.Connector;
 import javax.microedition.io.StreamConnection;
@@ -24,7 +28,7 @@ public class BluetoothClient {
      * 客户端监听
      */
     public interface OnClientListener {
-        void onConnected(InputStream inputStream, OutputStream outputStream);
+        void onConnected(DataInputStream inputStream, OutputStream outputStream);
         void onConnectionFailed();
         void onDisconnected();
         void onClose();
@@ -64,17 +68,27 @@ public class BluetoothClient {
     /**
      * 启动连接
      * @param remoteDevice
-     * @param serviceUUID
      * @throws IOException
      * @throws InterruptedException
      */
-    public void startClient(RemoteDevice remoteDevice, String serviceUUID) throws IOException, InterruptedException {
-        String url = RemoteDeviceDiscovery.searchService(remoteDevice, serviceUUID);
-
-        streamConnection = (StreamConnection) Connector.open(url);
-        if (this.onClientListener != null) {
-            this.onClientListener.onConnected(streamConnection.openInputStream(), streamConnection.openOutputStream());
+    public void startClient(RemoteDevice remoteDevice) throws IOException, InterruptedException {
+//        String url = RemoteDeviceDiscovery.searchService(remoteDevice, serviceUUID);
+//        System.out.println("url=="+url);
+        String url = "btspp://"+remoteDevice.getBluetoothAddress()+":1;authenticate=true;encrypt=true";
+        try{
+            streamConnection = (StreamConnection) Connector.open(url);
+            if (this.onClientListener != null) {
+                this.onClientListener.onConnected(streamConnection.openDataInputStream(), streamConnection.openOutputStream());
+            }else{
+                System.out.println("请打开蓝牙");
+            }
+        } catch (BluetoothConnectionException e){
+            e.printStackTrace();
+            System.out.println("蓝牙连接错误，请查看蓝牙是否打开。");
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     public OnDiscoverListener getOnDiscoverListener() {
