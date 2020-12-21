@@ -7,7 +7,6 @@ package com.jcsim;
  * @Date: 2020/11/25 15:17
  * @Description:蓝牙客户端业务类
  */
-import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import javax.bluetooth.RemoteDevice;
 import javax.microedition.io.ConnectionNotFoundException;
