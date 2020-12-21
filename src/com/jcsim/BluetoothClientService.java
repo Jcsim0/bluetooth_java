@@ -56,8 +56,8 @@ public class BluetoothClientService {
                             SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
                             while (true) {
                                 byte[] buffer = new byte[1024];
-                                int bytes=0;
-                                int ch;
+                                int bytes = 0; //字符串长度
+                                int ch;  // 读取字符的变量
 //                                inputStream.read(buffer)
                                 while ((ch = inputStream.read()) != '\n') {
                                     // 读数据。
@@ -67,11 +67,11 @@ public class BluetoothClientService {
 //                                    System.out.println("------------end------------");
 //                                    Thread.sleep(1000);
                                     if(ch!=-1){
-                                        buffer[bytes] = (byte) ch;
+                                        buffer[bytes] = (byte) ch; // 将读取到的字符写入
                                         bytes++;
                                     }
                                 }
-                                buffer[bytes] = (byte)'\n';
+                                buffer[bytes] = (byte)'\n'; //最后加上一个换行
                                 bytes++;
                                 String s = new String(buffer);
                                 System.out.println("===========start=============");
