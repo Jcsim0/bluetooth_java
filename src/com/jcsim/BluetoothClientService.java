@@ -112,7 +112,9 @@ public class BluetoothClientService {
             if (remoteDevices.size() > 0 ) {
                 for(int i=0;i<remoteDevices.size();i++){
                     System.out.println("第"+i+"个地址为："+remoteDevices.get(i).getBluetoothAddress());
-                    if( "B44B0E041625".equals(remoteDevices.get(i).getBluetoothAddress())){
+                    String lad_632_bluetooth = "98DA2000420E";
+                    String old_bluetooth = "B44B0E041625";
+                    if( lad_632_bluetooth.equals(remoteDevices.get(i).getBluetoothAddress())){
                         isConnect = true;
                         client.startClient(remoteDevices.get(i));
                         break;
