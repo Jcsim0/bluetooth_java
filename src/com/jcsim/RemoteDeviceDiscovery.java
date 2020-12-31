@@ -37,6 +37,7 @@ public class RemoteDeviceDiscovery {
         public void inquiryCompleted(int discType) {
             System.out.println("#" + "搜索完成");
             synchronized (inquiryCompletedEvent) {
+                //唤醒对象的等待池中的所有线程，进入锁池。
                 inquiryCompletedEvent.notifyAll();
             }
         }
@@ -102,20 +103,22 @@ public class RemoteDeviceDiscovery {
      * @throws InterruptedException
      */
     private static void findDevices() throws IOException, InterruptedException {
-
+        // 移除集合中所有元素
         devicesDiscovered.clear();
-
+        // 设置锁
         synchronized (inquiryCompletedEvent) {
-
+            // 获取本地蓝牙设备
             LocalDevice ld = LocalDevice.getLocalDevice();
 
             System.out.println("#本机蓝牙名称:" + ld.getFriendlyName());
 
+            //建立查詢
             boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC,listener);
 
             if (started) {
                 System.out.println("#" + "等待搜索完成...");
                 inquiryCompletedEvent.wait();
+                // 搜索结束
                 LocalDevice.getLocalDevice().getDiscoveryAgent().cancelInquiry(listener);
                 System.out.println("#发现设备数量：" + devicesDiscovered.size());
             }

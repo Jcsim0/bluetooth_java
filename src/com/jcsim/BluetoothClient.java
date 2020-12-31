@@ -54,13 +54,10 @@ public class BluetoothClient {
      * @throws InterruptedException
      */
     public void find() throws IOException, InterruptedException {
-        //附近所有的蓝牙设备，必须先执行 runDiscovery
+        //获取附近所有的蓝牙设备，必须先执行 runDiscovery
         Set<RemoteDevice> devicesDiscovered = RemoteDeviceDiscovery.getDevices();
-        Iterator<RemoteDevice> itr = devicesDiscovered.iterator();
-        //连接
-        while (itr.hasNext()) {
-            RemoteDevice remoteDevice = itr.next();
-
+        // 将所有设备保存到 集合Vector<RemoteDevice>
+        for (RemoteDevice remoteDevice : devicesDiscovered) {
             onDiscoverListener.onDiscover(remoteDevice);
         }
     }
@@ -74,6 +71,8 @@ public class BluetoothClient {
     public void startClient(RemoteDevice remoteDevice) throws IOException, InterruptedException {
 //        String url = RemoteDeviceDiscovery.searchService(remoteDevice, serviceUUID);
 //        System.out.println("url=="+url);
+        // btspp://<蓝牙设备地址>:<通道号>
+        // 1 为通道;authenticate=true;encrypt=true表示需要验证pin码
         String url = "btspp://"+remoteDevice.getBluetoothAddress()+":1;authenticate=true;encrypt=true";
         try{
             streamConnection = (StreamConnection) Connector.open(url);
