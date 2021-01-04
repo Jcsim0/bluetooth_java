@@ -72,7 +72,7 @@ public class BluetoothClient {
 //        String url = RemoteDeviceDiscovery.searchService(remoteDevice, serviceUUID);
 //        System.out.println("url=="+url);
         // btspp://<蓝牙设备地址>:<通道号>
-        // 1 为通道;authenticate=true;encrypt=true表示需要验证pin码
+        // 1 为通道;authenticate=true;encrypt=true表示验证、加密
         String url = "btspp://"+remoteDevice.getBluetoothAddress()+":1;authenticate=true;encrypt=true";
         try{
             streamConnection = (StreamConnection) Connector.open(url);
