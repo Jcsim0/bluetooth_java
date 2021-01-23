@@ -66,9 +66,9 @@ public class BluetoothClientService {
                                 while ((ch = inputStream.read()) != '\n') {
                                     // 读数据。
 //                                    String s = new String(buffer);
-//                                    System.out.println("===========start=============");
+//                                    System.out.println("===========start==============");
 //                                    System.out.println(s.trim());
-//                                    System.out.println("------------end------------");
+//                                    System.out.println("------------end-------------");
 //                                    Thread.sleep(1000);
                                     if(ch!=-1){
                                         buffer[bytes] = (byte) ch; // 将读取到的字符写入
